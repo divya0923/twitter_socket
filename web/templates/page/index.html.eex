@@ -5,16 +5,60 @@
 </div>
 
 <div class='row form-group'>
-  <div class='col-md-3'>
-    <input type='text' id='name' class='form-control' placeholder='Name' />
+ <div class='col-md-3'>
+    <input type='text' id='uid' class='form-control' placeholder='User Id' />
   </div>
-  <div class='col-md-9'>
-    <input type='text' id='message' class='form-control' placeholder='Message' />
+  <div class='col-md-3'>
+    <input type="button" id="registerBtn" value="Register" disabled/>
+  </div>
+  <div class='col-md-3'>
+       <input type="button" id="loginBtn" value="Login"/>
   </div>
 </div>
 
 <div class='row form-group'>
+  <div class='col-md-9'>
+    <input type='text' id='followTxt' class='form-control' placeholder='Follower Id' />
+  </div>
   <div class='col-md-3'>
-    <input type="button" id="registerBtn" name="Register">
+    <input type="button" id="followBtn" value="Follow"/>
+  </div>
+</div>
+
+
+
+<div class='row form-group'>
+  <div class='col-md-9'>
+    <input type='text' id='tweetTxt' class='form-control' placeholder='Tweet' />
+  </div>
+  <div class='col-md-3'>
+    <input type="button" id="tweetBtn" value="Tweet"/>
+  </div>
+</div>
+
+<div class='row form-group'>
+  <div class='col-md-9'>
+    <input type='text' id='rId' class='form-control' placeholder='ReTweet Id' />
+  </div>
+  <div class='col-md-3'>
+    <input type="button" id="rBtn" value="ReTweet"/>
+  </div>
+</div>
+
+<div class='row form-group'>
+  <div class='col-md-9'>
+    <input type='text' id='hTxt' class='form-control' placeholder='hashtag' />
+  </div>
+  <div class='col-md-3'>
+    <input type="button" id="hBtn" value="Search Hashtag"/>
+  </div>
+</div>
+
+<div class='row form-group'>
+  <div class='col-md-9'>
+    <input type='text' id='mTxt' class='form-control' placeholder='user id' />
+  </div>
+  <div class='col-md-3'>
+    <input type="button" id="mBtn" value="Search Mentions"/>
   </div>
 </div>

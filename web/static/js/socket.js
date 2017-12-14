@@ -54,14 +54,94 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 
 socket.connect()
 
-let channel = socket.channel("twitter", {});
+let channel = socket.channel("twitterui:123", {});
 let list    = $('#message-list');
 let message = $('#message');
 let name    = $('#name');
 let registerBtn = $('#registerBtn')
+let loginBtn = $('#loginBtn')
+let uid = 0
+let uIdTBox = $('#uid')
+let tweetBtn = $('#tweetBtn')
+let tweetTxt = $('#tweetTxt')
+let followBtn = $('#followBtn')
+let followTxt = $('#followTxt')
+let hBtn = $('#hBtn')
+let hTxt = $('#hTxt')
+let mBtn = $('#mBtn')
+let mTxt = $('#mTxt')
+let rBtn = $('#rBtn')
+let rTxt = $('#rId')
+let isReg = false;
 
-registerBtn.on('click', event => {
+registerBtn.on('click', event => { 
   console.log("register btn clicked");
+  channel.push("register", {uid: uIdTBox.val()});
+});
+
+loginBtn.on('click', event => {
+  console.log("login btn clicked");
+  channel.push("login", {uid : uIdTBox.val()});
+});
+
+tweetBtn.on('click', event => {
+  console.log("tweet btn clicked");
+  channel.push("postTweet", {text: tweetTxt.val()});
+  tweetTxt.val('');
+});
+
+followBtn.on('click', event => {
+  console.log("follow btn clicked");
+  channel.push("subscribeTo", {followerId : followTxt.val()});
+  followTxt.val('');
+});
+
+hBtn.on('click', event => {
+  console.log("search btn clicked");
+  channel.push("hashtagSearch", {key : hTxt.val()});
+});
+
+mBtn.on('click', event => {
+  console.log("search btn clicked");
+  channel.push("mentionSearch", {key : mTxt.val()});
+});
+
+rBtn.on('click', event => {
+  console.log("rBtn clicked");
+  channel.push("retweet", {tid : rTxt.val()});
+});
+
+channel.on('registrationDone', payload => {
+  loginBtn.prop('disabled', false);  
+  isReg = true;
+});
+
+channel.on('receiveTweet', payload =>  {
+  console.log("payload from receiveTweet %o", payload);
+  for(var i = 0; i < payload.tList.length; i++) {
+    var tweet = payload.tList[i];
+    console.log("text " + tweet["tweet"])
+    list.append(`<b> ${tweet["tweet"]} </b>  || retweet id: ${tweet["tid"]}  </br>`)
+  }
+
+  if(payload.tList.length != 0)
+    console.log("tweet %o", payload.tList[0]);
+  //list.append(`<b>${payload.name || 'Anonymous'}:</b> ${payload.message} </b> ${payload.msg2}`);
+  //list.prop({scrollTop: list.prop("scrollHeight")});
+});
+
+channel.on('searchResults', payload =>  {
+  console.log("payload from receiveTweet %o", payload);
+  if(payload["skey"] == "ok") 
+    list.append(`no results found for search`);
+  else {
+    list.append('<b> Search results </b> </br>');
+    for(var i = 0; i < payload.tList.length; i++) {
+      var tweet = payload.tList[i];
+      list.append(`<b> ${tweet} </b> </br>`)
+    }
+  }
+
 });
 
 message.on('keypress', event => {
@@ -79,7 +159,10 @@ channel.on('new_message', payload => {
 });
 
 channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("ok", resp => { 
+    //console.log("Joined successfully", resp) ;
+    registerBtn.prop('disabled', false);  
+  })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 export default socket

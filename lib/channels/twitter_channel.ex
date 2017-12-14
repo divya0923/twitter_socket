@@ -13,18 +13,19 @@ defmodule TwitterChannel do
 
     def handle_in("new_message", payload, socket) do
         Logger.error ("new_message #{inspect payload}")
-        broadcast! socket, "new_message", payload
         {:noreply, socket}
     end
     
     def handle_in("register", payload, socket) do
+        Logger.error("register #{inspect payload}")
         GenServer.call socket.assigns[:uEngine], {:register, payload["uid"]}
         zipfNum = round((1/payload["uid"]) * payload["usersCount"]) # do zipf thing here
         fList = Enum.take_random(Enum.to_list(1..payload["usersCount"]) -- [payload["uid"]], zipfNum)
-        #Logger.info("followersList #{inspect fList}")
+        Logger.info("followersList #{inspect fList}")
         GenServer.cast socket.assigns[:uEngine], {:subscribe, payload["uid"], fList}
         {:noreply, socket}
     end
+    
 
     def handle_in("login", userId, socket) do
         GenServer.cast socket.assigns[:rEngine], {:login, userId, socket.channel_pid}       

@@ -66,7 +66,6 @@ defmodule TwitterSocket do
 
     Process.send(client1, {:hSearch, "#great"}, [])
     Process.send(client1, :mSearch, [])
-        
     """
 
     #Process.send(client1, "hashTagSearch", [])

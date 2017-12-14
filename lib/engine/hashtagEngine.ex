@@ -2,7 +2,7 @@ defmodule HashtagEngine do
     use GenServer
 
     def start_link(hMap) do
-        GenServer.start_link(__MODULE__, [hMap, 0])                      
+        GenServer.start_link(__MODULE__, [hMap, 0]) 
     end 
 
     def handle_call({:addTags, tagList, tweetId}, _from, [hMap, lastRecord]) do 
@@ -24,7 +24,7 @@ defmodule HashtagEngine do
     def handle_call({:getTweets, hashTag}, _from, [hMap, lastRecord]) do
         tweetList = []
         hashToSearch = :ok
-        if length(Map.keys(hMap)) == 0 do
+        if Map.fetch(hMap, hashTag) == :error do
             IO.puts "hash tweets list empty"
         else 
             hashToSearch = hashTag

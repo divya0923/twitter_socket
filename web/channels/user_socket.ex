@@ -4,6 +4,7 @@ defmodule TwitterSocket.UserSocket do
   ## Channels
   # channel "room:*", TwitterSocket.RoomChannel
   channel "twitter", TwitterChannel
+  channel "twitterui:*", TwitterUiChannel
   
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

@@ -143,7 +143,7 @@ defmodule TwitterClient do
                 Process.send_after(self(), :register, :timer.seconds(1))
             {:login, msg} ->
                 Process.send_after(self(), :login, :timer.seconds(2))   
-                #Process.send_after(self(), :sendTweet, :timer.seconds(2))     
+                Process.send_after(self(), :sendTweet, :timer.seconds(10))     
             :startTweeting ->
                 Process.send_after(self(), :sendTweet, :timer.seconds(2)) 
                 """
